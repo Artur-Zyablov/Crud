@@ -2,6 +2,7 @@ package spring.crud.service;
 
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import spring.crud.dao.UserDAO;
 import spring.crud.model.User;
 
@@ -23,14 +24,16 @@ public class UserServiceimpl implements UserService {
     }
 
     @Override
-    public User createUser(User user) {
-        return userDAO.createUser(user);
+    @Transactional
+    public void createUser(User user) {
+       userDAO.createUser(user);
     }
 
     @Override
+    @Transactional
     public User deleteUser(Integer userId) {
         try {
-            return userDAO.deleteUser(userId);
+            userDAO.deleteUser(userId);
         } catch (InvalidDataAccessApiUsageException e) {
             System.out.println("Not found User");
         }
